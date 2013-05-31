@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="10" >
+
+        <AutoCompleteTextView
+            android:id="@+id/roomPicker"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:ems="10"
+            android:hint="@string/roomPickerHint" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <ToggleButton
+            android:id="@+id/validationToggler"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:textOff="@string/validationTogglerOff"
+            android:textOn="@string/validationTogglerOn" />
+
+        <Button
+            android:id="@+id/submitValidationButton"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="7"
+            android:enabled="false"
+            android:text="@string/submitValidationForRoom_" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollViewForValidationSummary"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40" >
+
+        <TextView
+            android:id="@+id/validationSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/logScrollViewInValidation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="40" >
+
+        <TextView
+            android:id="@+id/logTextViewInValidation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+</LinearLayout>
