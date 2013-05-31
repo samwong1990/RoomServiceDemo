@@ -25,11 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.samwong.hk.roomservice.api.commons.dataFormat.Report;
-import com.samwong.hk.roomservice.api.commons.dataFormat.Response;
-import com.samwong.hk.roomservice.api.commons.dataFormat.ResponseWithReports;
-import com.samwong.hk.roomservice.api.commons.dataFormat.WifiInformation;
-import com.samwong.hk.roomservice.api.commons.parameterEnums.ReturnCode;
+import hk.samwong.roomservice.commons.dataFormat.Report;
+import hk.samwong.roomservice.commons.dataFormat.Response;
+import hk.samwong.roomservice.commons.dataFormat.ResponseWithReports;
+import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
+import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 
 /**

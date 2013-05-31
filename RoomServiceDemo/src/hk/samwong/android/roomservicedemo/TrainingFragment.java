@@ -22,9 +22,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ToggleButton;
 
-import com.samwong.hk.roomservice.api.commons.dataFormat.Response;
-import com.samwong.hk.roomservice.api.commons.dataFormat.WifiInformation;
-import com.samwong.hk.roomservice.api.commons.parameterEnums.ReturnCode;
+import hk.samwong.roomservice.commons.dataFormat.Response;
+import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
+import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 
 /**
