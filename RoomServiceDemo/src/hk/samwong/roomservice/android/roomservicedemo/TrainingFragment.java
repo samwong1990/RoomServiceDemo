@@ -1,10 +1,13 @@
-package hk.samwong.android.roomservicedemo;
+package hk.samwong.roomservice.android.roomservicedemo;
 
-import hk.samwong.android.roomserviceandroidlibrary.apicalls.SubmitBatchTrainingData;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogLevel;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogTag;
-import hk.samwong.android.roomserviceandroidlibrary.helpers.TrainingDataAccumulator;
-import hk.samwong.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.android.library.apicalls.SubmitBatchTrainingData;
+import hk.samwong.roomservice.android.library.constants.LogLevel;
+import hk.samwong.roomservice.android.library.constants.LogTag;
+import hk.samwong.roomservice.android.library.helpers.TrainingDataAccumulator;
+import hk.samwong.roomservice.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.commons.dataFormat.Response;
+import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
+import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +24,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ToggleButton;
-
-import hk.samwong.roomservice.commons.dataFormat.Response;
-import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
-import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 
 /**

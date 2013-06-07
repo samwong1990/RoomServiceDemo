@@ -1,12 +1,13 @@
-package hk.samwong.android.roomservicedemo;
+package hk.samwong.roomservice.android.roomservicedemo;
 
-import hk.samwong.android.roomserviceandroidlibrary.apicalls.PutValidClassificationConfirmation;
-import hk.samwong.android.roomserviceandroidlibrary.apicalls.RoomQuery;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogLevel;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogTag;
-import hk.samwong.android.roomserviceandroidlibrary.fingerprintCollection.WifiScanner;
-import hk.samwong.android.roomserviceandroidlibrary.fingerprintCollection.WifiScannerPoller;
-import hk.samwong.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.android.library.apicalls.PutValidClassificationConfirmation;
+import hk.samwong.roomservice.android.library.apicalls.RoomQuery;
+import hk.samwong.roomservice.android.library.constants.LogLevel;
+import hk.samwong.roomservice.android.library.constants.LogTag;
+import hk.samwong.roomservice.android.library.fingerprintCollection.WifiScanner;
+import hk.samwong.roomservice.android.library.fingerprintCollection.WifiScannerPoller;
+import hk.samwong.roomservice.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.android.roomservicedemo.R;
 
 import java.util.LinkedList;
 import java.util.List;

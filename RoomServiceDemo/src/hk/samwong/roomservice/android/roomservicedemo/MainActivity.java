@@ -1,9 +1,9 @@
-package hk.samwong.android.roomservicedemo;
+package hk.samwong.roomservice.android.roomservicedemo;
 
-import hk.samwong.android.roomserviceandroidlibrary.apicalls.GetListOfRooms;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogLevel;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogTag;
-import hk.samwong.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.android.library.apicalls.GetListOfRooms;
+import hk.samwong.roomservice.android.library.constants.LogLevel;
+import hk.samwong.roomservice.android.library.constants.LogTag;
+import hk.samwong.roomservice.android.roomservicedemo.helper.Console;
 
 import java.util.Collections;
 import java.util.List;

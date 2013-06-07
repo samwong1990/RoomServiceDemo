@@ -1,11 +1,17 @@
-package hk.samwong.android.roomservicedemo;
+package hk.samwong.roomservice.android.roomservicedemo;
 
-import hk.samwong.android.roomserviceandroidlibrary.apicalls.PutStatistics;
-import hk.samwong.android.roomserviceandroidlibrary.apicalls.RoomQuery;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogLevel;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogTag;
-import hk.samwong.android.roomserviceandroidlibrary.fingerprintCollection.WifiScannerPoller;
-import hk.samwong.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.android.library.apicalls.PutStatistics;
+import hk.samwong.roomservice.android.library.apicalls.RoomQuery;
+import hk.samwong.roomservice.android.library.constants.LogLevel;
+import hk.samwong.roomservice.android.library.constants.LogTag;
+import hk.samwong.roomservice.android.library.fingerprintCollection.WifiScannerPoller;
+import hk.samwong.roomservice.android.roomservicedemo.helper.Console;
+import hk.samwong.roomservice.commons.dataFormat.Report;
+import hk.samwong.roomservice.commons.dataFormat.Response;
+import hk.samwong.roomservice.commons.dataFormat.ResponseWithReports;
+import hk.samwong.roomservice.commons.dataFormat.RoomStatistic;
+import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
+import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,13 +38,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import hk.samwong.roomservice.commons.dataFormat.Report;
-import hk.samwong.roomservice.commons.dataFormat.Response;
-import hk.samwong.roomservice.commons.dataFormat.ResponseWithReports;
-import hk.samwong.roomservice.commons.dataFormat.RoomStatistic;
-import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
-import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 /**
  * First step of investigating the possibility of sharing training data. Also a

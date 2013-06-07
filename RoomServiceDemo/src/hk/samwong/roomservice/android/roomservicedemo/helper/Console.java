@@ -1,8 +1,8 @@
-package hk.samwong.android.roomservicedemo.helper;
+package hk.samwong.roomservice.android.roomservicedemo.helper;
 
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogLevel;
-import hk.samwong.android.roomserviceandroidlibrary.constants.LogTag;
-import hk.samwong.android.roomservicedemo.R;
+import hk.samwong.roomservice.android.library.constants.LogLevel;
+import hk.samwong.roomservice.android.library.constants.LogTag;
+import hk.samwong.roomservice.android.roomservicedemo.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
