@@ -1,9 +1,8 @@
 package hk.samwong.roomservice.android.roomservicedemo;
 
-import hk.samwong.roomservice.android.library.apicalls.SubmitBatchTrainingData;
+import hk.samwong.roomservice.android.library.apicalls.RoomTrainer;
 import hk.samwong.roomservice.android.library.constants.LogLevel;
 import hk.samwong.roomservice.android.library.constants.LogTag;
-import hk.samwong.roomservice.android.library.helpers.TrainingDataAccumulator;
 import hk.samwong.roomservice.android.roomservicedemo.helper.Console;
 import hk.samwong.roomservice.commons.dataFormat.Response;
 import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
@@ -13,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -35,8 +33,6 @@ public class TrainingFragment extends Fragment {
 	private List<String> latestRoomList = Collections.emptyList();
 	private List<String> currentRoomList = null;
 
-	private TrainingDataAccumulator currentAccumulator;
-
 	public void updateAutoComplete(List<String> result, Activity activity) {
 		latestRoomList = result;
 		if (!latestRoomList.equals(currentRoomList)) {
@@ -50,6 +46,7 @@ public class TrainingFragment extends Fragment {
 		}
 	}
 
+	private RoomTrainer roomTrainer;
 	public synchronized void toggleDataCollectionMode(final View view) {
 		// Is the toggle on?
 		boolean on = ((ToggleButton) view).isChecked();
@@ -60,45 +57,42 @@ public class TrainingFragment extends Fragment {
 			AutoCompleteTextView textView = (AutoCompleteTextView) getActivity().findViewById(R.id.newRoomIdentifier);
 			String roomName = textView.getText().toString();
 			
-			currentAccumulator = new TrainingDataAccumulator(roomName) {
+			roomTrainer = new RoomTrainer(getActivity()) {
 				int numOfDatapoints = 0;
 
 				@Override
-				protected void onProgressUpdate(WifiInformation... scanResult) {
+				protected void onProgressUpdate(WifiInformation[] values) {
 					Console.println(getActivity(), LogLevel.INFO, LogTag.RESULT, "recorded " + ++numOfDatapoints + " datapoints");
 				}
-
+				
 				@Override
-				protected void onCancelled(final List<WifiInformation> result) {
-					Console.println(getActivity(), LogLevel.INFO, LogTag.RESULT, "Done, recorded " + result.size() + " datapoint.");
-					submitButton.setText(String.format("%s %s", getString(R.string.submitDataForRoom_), currentAccumulator.getRoomName()));
-					submitButton.setEnabled(true);
-					submitButton.setOnClickListener(new OnClickListener() {
-						// This is for varargs parameter. This should be type safe.
-						@SuppressWarnings("unchecked")
-						@Override
-						public void onClick(View v) {
-							submitButton.setEnabled(false);
-							submitButton.setText(getString(R.string.submittingDataForRoom_) + " " + currentAccumulator.getRoomName());
-							new SubmitBatchTrainingData(currentAccumulator.getRoomName(), getActivity()) {
-								@Override
-								protected void onPostExecute(Response result) {
-									if (result.getReturnCode().equals(ReturnCode.OK)) {
-										submitButton.setText(getString(R.string.submittedDataForRoom_) + " " + currentAccumulator.getRoomName());
-										Console.println(getActivity(), LogLevel.ERROR, LogTag.APICALL, "OK");
-									} else {
-										submitButton.setEnabled(true);
-										Console.println(getActivity(), LogLevel.ERROR, LogTag.APICALL, result.getExplanation());
-									}
-								}
-							}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, result);
-						}
-					});
+				protected void onPostExecute(Response result) {
+					if (result.getReturnCode().equals(ReturnCode.OK)) {
+						submitButton.setText(getString(R.string.submittedDataForRoom_) + " " + roomTrainer.getRoomLabel());
+						Console.println(getActivity(), LogLevel.ERROR, LogTag.APICALL, "OK");
+					} else {
+						submitButton.setEnabled(true);
+						Console.println(getActivity(), LogLevel.ERROR, LogTag.APICALL, result.getExplanation());
+					}
 				}
-			};
-			currentAccumulator.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getActivity());
+			}.beginCollection().setRoomLabel(roomName);
+			
+
+			
 		} else {
-			currentAccumulator.cancel(false);
+			roomTrainer.stopCollection();
+			submitButton.setText(String.format("%s %s", getString(R.string.submitDataForRoom_), roomTrainer.getRoomLabel()));
+			submitButton.setEnabled(true);
+			submitButton.setOnClickListener(new OnClickListener() {
+				// This is for varargs parameter. This should be type safe.
+				@Override
+				public void onClick(View v) {
+					submitButton.setEnabled(false);
+					submitButton.setText(getString(R.string.submittingDataForRoom_) + " " + roomTrainer.getRoomLabel());
+					roomTrainer.submit();
+				}
+			});
+
 		}
 	}
 
@@ -111,6 +105,7 @@ public class TrainingFragment extends Fragment {
 			}
 		});
 		super.onActivityCreated(savedInstanceState);
+
 	}
 
 	@Override

@@ -7,13 +7,23 @@ import hk.samwong.roomservice.android.library.constants.LogTag;
 import hk.samwong.roomservice.android.library.fingerprintCollection.WifiScanner;
 import hk.samwong.roomservice.android.library.fingerprintCollection.WifiScannerPoller;
 import hk.samwong.roomservice.android.roomservicedemo.helper.Console;
-import hk.samwong.roomservice.android.roomservicedemo.R;
+import hk.samwong.roomservice.commons.dataFormat.Report;
+import hk.samwong.roomservice.commons.dataFormat.Response;
+import hk.samwong.roomservice.commons.dataFormat.ResponseWithReports;
+import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
+import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,12 +35,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
-import hk.samwong.roomservice.commons.dataFormat.Report;
-import hk.samwong.roomservice.commons.dataFormat.Response;
-import hk.samwong.roomservice.commons.dataFormat.ResponseWithReports;
-import hk.samwong.roomservice.commons.dataFormat.WifiInformation;
-import hk.samwong.roomservice.commons.parameterEnums.ReturnCode;
 
 
 /**
@@ -54,6 +58,18 @@ public class ClassifierFragment extends Fragment {
 		boolean on = ((ToggleButton) view).isChecked();
 		// If it is on, spawn a thread to keep fetching location. 
 		if (on) {
+			
+			
+		    final String startTime = String.format("%s",
+					new SimpleDateFormat("HH:mm:ss.SSS", Locale.US)
+			.format(new Date()));
+		    final IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+			final Intent batteryStatus = getActivity().registerReceiver(null, ifilter);
+			final int beginlevel = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+			final int beginscale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+			final float beginbatteryPct = beginlevel / (float)beginscale;
+		    
+		    
 			wifiScanPoller = new WifiScannerPoller(){
 				@Override
 				protected void onProgressUpdate(WifiInformation... values) {
@@ -61,6 +77,11 @@ public class ClassifierFragment extends Fragment {
 						Log.e(LogTag.APICALL.toString(), "WifiScanPolling did not return exactly 1 WifiInformation.");
 						return;
 					}
+					int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+					int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+					float batteryPct = level / (float)scale;
+					Console.println(getActivity(), LogLevel.INFO, LogTag.CLIENT, 
+							String.format("Since %s, from level=%d, scale=%d, batteryPct=%f, to level=%d, scale=%d, batteryPct=%f", startTime, beginlevel, beginscale, beginbatteryPct, level, scale, batteryPct));
 					locateMe(view, values[0]);
 				}
 			};
@@ -104,7 +125,7 @@ public class ClassifierFragment extends Fragment {
 					LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.resultsArea);
 					final List<Button> buttonsAdded = new LinkedList<Button>();
 					for (final Report report : results.getReports()) {
-						final String room = report.getRoom();
+						final String room = report.getBestMatch().getAlias();
 						Console.println(getActivity(), LogLevel.INFO,
 								LogTag.APICALL,
 								"Algo: " + report.getAlgorithm()
@@ -141,7 +162,7 @@ public class ClassifierFragment extends Fragment {
 											button.setText(getString(
 													R.string.reinforceBtnSuccess, room));
 										}else{
-											button.setText(report.getRoom() + " " + getString(
+											button.setText(report.getBestMatch().getAlias() + " " + getString(
 													R.string.reinforceBtnFailure, room));
 											for (Button buttonAdded : buttonsAdded) {
 												buttonAdded.setEnabled(true);
@@ -163,7 +184,7 @@ public class ClassifierFragment extends Fragment {
 				}
 			}
 
-		}.execute(getActivity());
+		}.execute();
 	}
 	
 	@Override

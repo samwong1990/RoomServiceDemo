@@ -167,7 +167,7 @@ public class ValidationFragment extends Fragment {
 					return;
 				}
 				for (final Report report : results.getReports()) {
-					final String predictedRoom = report.getRoom();
+					final String predictedRoom = report.getBestMatch().getAlias();
 					final String algoName = report.getAlgorithm();
 					if (!mapAlgoToCounter.containsKey(algoName)) {
 						mapAlgoToCounter.put(algoName, new RoomStatistic().withRoomName(expectedRoom).withAlgorithm(algoName));
@@ -187,7 +187,7 @@ public class ValidationFragment extends Fragment {
 				}
 				dispatchedLocationQueries.decrementAndGet();
 			}
-		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, getActivity());
+		}.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 	}
 
 	@Override

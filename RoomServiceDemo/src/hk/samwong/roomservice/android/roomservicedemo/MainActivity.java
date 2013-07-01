@@ -49,7 +49,7 @@ public class MainActivity extends FragmentActivity {
 	private List<String> latestRoomList = Collections.emptyList();
 	
 	private void updateRoomList() {
-		new GetListOfRooms(this) {
+		new GetListOfRooms(thisActivity) {
 			@Override
 			protected void onPostExecute(final List<String> result) {
 				Console.println(thisActivity, LogLevel.INFO, LogTag.APICALL,
